@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OR Setup Checklist — Prompt Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f4f0;
+    --card: #ffffff;
+    --black: #151515;
+    --gold: #FFCD00;
+    --gold-dark: #e6b800;
+    --gold-pale: #fff8db;
+    --gold-muted: #f5e9a0;
+    --text: #1a1a1a;
+    --text-muted: #6b6b6b;
+    --border: #ddd9d0;
+    --success: #2e7d32;
+    --gemini-blue: #4285f4;
+    --radius: 12px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.07);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  .header {
+    background: var(--black);
+    color: white;
+    padding: 2rem 1.5rem 1.8rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 5px;
+    background: var(--gold);
+  }
+  .header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.65rem;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    margin-bottom: 0.35rem;
+    color: var(--gold);
+  }
+  .header p {
+    font-size: 0.85rem;
+    opacity: 0.75;
+    font-weight: 400;
+  }
+
+  .container {
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 3rem;
+  }
+
+  .field-group {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.35rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    transition: border-color 0.2s;
+  }
+  .field-group:focus-within {
+    border-color: var(--gold-dark);
+  }
+
+  .field-label {
+    font-weight: 600;
+    font-size: 0.92rem;
+    margin-bottom: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .field-label .req {
+    color: #c0392b;
+    font-size: 1rem;
+  }
+  .field-label .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px; height: 22px;
+    background: var(--black);
+    color: var(--gold);
+    border-radius: 50%;
+    font-size: 0.72rem;
+    font-weight: 700;
+    margin-right: 0.3rem;
+    flex-shrink: 0;
+  }
+
+  .radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .radio-option {
+    position: relative;
+  }
+  .radio-option input {
+    position: absolute;
+    opacity: 0;
+    width: 0; height: 0;
+  }
+  .radio-option label {
+    display: inline-block;
+    padding: 0.5rem 1.15rem;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+    background: #fafaf8;
+  }
+  .radio-option input:checked + label {
+    border-color: var(--black);
+    background: var(--gold-pale);
+    color: var(--black);
+    font-weight: 700;
+  }
+  .radio-option label:hover {
+    border-color: var(--gold-dark);
+    background: var(--gold-pale);
+  }
+
+  .procedure-input {
+    width: 100%;
+    min-height: 80px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    color: var(--text);
+    resize: vertical;
+    transition: border-color 0.2s;
+    background: #fafaf8;
+  }
+  .procedure-input::placeholder {
+    color: var(--text-muted);
+  }
+  .procedure-input:focus {
+    outline: none;
+    border-color: var(--gold-dark);
+    background: white;
+  }
+  .procedure-hint {
+    font-size: 0.76rem;
+    color: var(--text-muted);
+    margin-top: 0.45rem;
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    margin-top: 1.5rem;
+  }
+
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.5rem;
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+
+  .btn-copy {
+    background: var(--black);
+    color: var(--gold);
+  }
+  .btn-copy:hover { background: #2a2a2a; }
+  .btn-copy:active { transform: scale(0.98); }
+
+  .btn-gemini {
+    background: white;
+    color: var(--gemini-blue);
+    border: 2px solid var(--gemini-blue);
+  }
+  .btn-gemini:hover { background: #eaf1fd; }
+  .btn-gemini:active { transform: scale(0.98); }
+
+  .btn svg {
+    width: 18px; height: 18px;
+    flex-shrink: 0;
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(120%);
+    background: var(--black);
+    color: var(--gold);
+    padding: 0.7rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 100;
+    pointer-events: none;
+  }
+  .toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+
+  .field-group.error {
+    border-color: #c0392b;
+    animation: shake 0.3s ease;
+  }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+  }
+
+  .preview-section {
+    margin-top: 1.5rem;
+  }
+  .preview-toggle {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.4rem 0;
+  }
+  .preview-toggle:hover { color: var(--black); }
+  .preview-box {
+    display: none;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.2rem;
+    margin-top: 0.65rem;
+    font-size: 0.78rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 320px;
+    overflow-y: auto;
+    box-shadow: var(--shadow);
+  }
+  .preview-box.open { display: block; }
+
+  .footer {
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+
+  @media (min-width: 600px) {
+    .container { padding: 2rem 1.5rem 3rem; }
+    .header h1 { font-size: 1.85rem; }
+    .actions { flex-direction: row; }
+    .btn { flex: 1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>OR Setup Checklist Generator</h1>
+  <p>Fill in the case details → Copy the prompt or send to Gemini</p>
+</div>
+
+<div class="container">
+
+  <!-- 1. Patient Age Group -->
+  <div class="field-group" id="fg-age">
+    <div class="field-label">
+      <span class="step-num">1</span> Patient Age Group <span class="req">*</span>
+    </div>
+    <div class="radio-group">
+      <div class="radio-option">
+        <input type="radio" name="age" id="age-adult" value="Adult">
+        <label for="age-adult">Adult</label>
+      </div>
+      <div class="radio-option">
+        <input type="radio" name="age" id="age-child" value="Child">
+        <label for="age-child">Child</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Patient Context -->
+  <div class="field-group" id="fg-context">
+    <div class="field-label">
+      <span class="step-num">2</span> Patient Context <span class="req">*</span>
+    </div>
+    <div class="radio-group">
+      <div class="radio-option">
+        <input type="radio" name="context" id="ctx-inpatient" value="inpatient">
+        <label for="ctx-inpatient">Inpatient</label>
+      </div>
+      <div class="radio-option">
+        <input type="radio" name="context" id="ctx-ambulatory" value="ambulatory">
+        <label for="ctx-ambulatory">Ambulatory</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. ASA Classification -->
+  <div class="field-group" id="fg-asa">
+    <div class="field-label">
+      <span class="step-num">3</span> ASA Classification <span class="req">*</span>
+    </div>
+    <div class="radio-group">
+      <div class="radio-option"><input type="radio" name="asa" id="asa-12" value="1-2"><label for="asa-12">1–2</label></div>
+      <div class="radio-option"><input type="radio" name="asa" id="asa-3" value="3"><label for="asa-3">3</label></div>
+      <div class="radio-option"><input type="radio" name="asa" id="asa-46" value="4-6"><label for="asa-46">4–6</label></div>
+    </div>
+  </div>
+
+  <!-- 4. Anesthesia Type -->
+  <div class="field-group" id="fg-type">
+    <div class="field-label">
+      <span class="step-num">4</span> Anesthesia Type <span class="req">*</span>
+    </div>
+    <div class="radio-group">
+      <div class="radio-option">
+        <input type="radio" name="atype" id="at-general" value="General">
+        <label for="at-general">General</label>
+      </div>
+      <div class="radio-option">
+        <input type="radio" name="atype" id="at-mac" value="MAC">
+        <label for="at-mac">MAC</label>
+      </div>
+      <div class="radio-option">
+        <input type="radio" name="atype" id="at-spinal" value="Spinal">
+        <label for="at-spinal">Spinal</label>
+      </div>
+      <div class="radio-option">
+        <input type="radio" name="atype" id="at-regional" value="Regional">
+        <label for="at-regional">Regional</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Scheduled Surgical Procedure(s) -->
+  <div class="field-group" id="fg-procedure">
+    <div class="field-label">
+      <span class="step-num">5</span> Scheduled Surgical Procedure(s) <span class="req">*</span>
+    </div>
+    <textarea class="procedure-input" id="procedure" placeholder="e.g., Laparoscopic cholecystectomy, Total knee arthroplasty…"></textarea>
+
+  </div>
+
+  <!-- Actions -->
+  <div class="actions">
+    <button class="btn btn-copy" id="btnCopy" onclick="copyPrompt()">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75m11.25-1.5h-6a1.125 1.125 0 00-1.125 1.125v12.75c0 .621.504 1.125 1.125 1.125h6c.621 0 1.125-.504 1.125-1.125V6.375c0-.621-.504-1.125-1.125-1.125z"/></svg>
+      Step 1: Copy Prompt
+    </button>
+    <button class="btn btn-gemini" id="btnGemini" onclick="openGemini()">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+      Step 2: Open Gemini & Paste
+    </button>
+  </div>
+
+  <!-- Preview -->
+  <div class="preview-section">
+    <button class="preview-toggle" onclick="togglePreview()">
+      <span id="preview-arrow">▶</span>&nbsp; Preview generated prompt
+    </button>
+    <div class="preview-box" id="previewBox"></div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast">✓ Prompt copied to clipboard</div>
+
+<div class="footer">
+  No data is collected or stored. This page runs entirely in your browser.
+</div>
+
+<script>
+const PROMPT_TEMPLATE = `Role: You are a US medical student who has completed a 4-week anesthesia rotation and is independently setting up the operating room for the next case.
+Context:
+- {{AGE}} {{CONTEXT}} OR case.
+- ASA {{ASA}} patient.
+- {{ATYPE}} for {{PROCEDURE}}
+Task:
+Create a practical single-room setup checklist to be used while physically preparing the OR before case starts. The checklist must follow a safe and logical preparation sequence to minimize omissions.
+Output:
+- Return ONE table only.
+- The table must contain exactly THREE columns:
+| Preparation Domain | Item to Verify | Ready (Yes/No) |
+Rules:
+- Organize the checklist in the following order:
+1- Anesthesia Machine & Room Readiness
+2- Monitoring (standard and advanced)
+3- Airway Equipment
+4- Vascular Access & Fluids (IV, arterial line readiness if applicable)
+5- Positioning & Patient Safety
+6- Emergency Equipment
+7- General OR Supplies not mentioned before
+- Do NOT include:
+-- Medications
+-- Drug preparation
+-- Ventilation modes or ventilator settings
+-- Physiologic explanations
+-- Narrative text
+-- Documentation or chart-related actions
+-- Provider workflow or cognitive tasks (e.g., "confirm," "review," "assess")
+-- Anything not physically verifiable in the room
+Rules:
+- Use short, meaningful phrases (not single words, not long sentences).
+- Focus only on physical room preparation steps someone verifies while walking through the room.
+- Use standard US operating room terminology.
+- No text before or after the table.
+- No bullet points.
+- No extra commentary`;
+
+function getValues() {
+  const age = document.querySelector('input[name="age"]:checked');
+  const ctx = document.querySelector('input[name="context"]:checked');
+  const asa = document.querySelector('input[name="asa"]:checked');
+  const atype = document.querySelector('input[name="atype"]:checked');
+  const proc = document.getElementById('procedure').value.trim();
+  return { age, ctx, asa, atype, proc };
+}
+
+function validate() {
+  const { age, ctx, asa, atype, proc } = getValues();
+  let valid = true;
+  document.querySelectorAll('.field-group').forEach(fg => fg.classList.remove('error'));
+  if (!age) { document.getElementById('fg-age').classList.add('error'); valid = false; }
+  if (!ctx) { document.getElementById('fg-context').classList.add('error'); valid = false; }
+  if (!asa) { document.getElementById('fg-asa').classList.add('error'); valid = false; }
+  if (!atype) { document.getElementById('fg-type').classList.add('error'); valid = false; }
+  if (!proc) { document.getElementById('fg-procedure').classList.add('error'); valid = false; }
+  return valid;
+}
+
+function buildPrompt() {
+  const { age, ctx, asa, atype, proc } = getValues();
+  return PROMPT_TEMPLATE
+    .replace('{{AGE}}', age.value)
+    .replace('{{CONTEXT}}', ctx.value)
+    .replace('{{ASA}}', asa.value)
+    .replace('{{ATYPE}}', atype.value)
+    .replace('{{PROCEDURE}}', proc);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+async function copyPrompt() {
+  if (!validate()) return;
+  const prompt = buildPrompt();
+  try {
+    await navigator.clipboard.writeText(prompt);
+    showToast('✓ Prompt copied to clipboard');
+  } catch {
+    const ta = document.createElement('textarea');
+    ta.value = prompt;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('✓ Prompt copied to clipboard');
+  }
+}
+
+async function openGemini() {
+  window.open('https://gemini.google.com/app', '_blank');
+}
+
+function refreshPreview() {
+  const box = document.getElementById('previewBox');
+  if (!box.classList.contains('open')) return;
+  const { age, ctx, asa, atype, proc } = getValues();
+  box.textContent = PROMPT_TEMPLATE
+    .replace('{{AGE}}', age?.value || '[___]')
+    .replace('{{CONTEXT}}', ctx?.value || '[___]')
+    .replace('{{ASA}}', asa?.value || '[___]')
+    .replace('{{ATYPE}}', atype?.value || '[___]')
+    .replace('{{PROCEDURE}}', proc || '[___]');
+}
+
+function togglePreview() {
+  const box = document.getElementById('previewBox');
+  const arrow = document.getElementById('preview-arrow');
+  const isOpen = box.classList.toggle('open');
+  arrow.textContent = isOpen ? '▼' : '▶';
+  if (isOpen) refreshPreview();
+}
+
+document.addEventListener('change', refreshPreview);
+document.getElementById('procedure').addEventListener('input', refreshPreview);
+</script>
+
+</body>
+</html>
