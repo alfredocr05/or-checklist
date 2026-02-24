@@ -9,3 +9,11 @@ Browser-based tool used to standardize scenario inputs and generate structured a
 
 ## For reviewers
 Please use the files listed under **Assets** in the manuscript release 
+
+## Screenshots
+
+### Prompt Generator
+![Prompt Generator](Checklist%20Generator)
+
+### QR Code Page
+![QR Code](QR%20code)
