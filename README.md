@@ -52,16 +52,6 @@ To print or save the QR code page, open the file in the `QR code` folder or down
 ├── README.md / README.txt  # this documentation in Markdown/plain‑text
 ```
 
-## Citing This Tool
-
-If referring to this tool in a publication, please cite the Zenodo archive:
-
-> Alfredo. **OR Setup Checklist Prompt Generator (Version 2.0‑manuscript)** [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.20673373
-
-## License
-
-Add your chosen license here (e.g., MIT, Apache 2.0) so others know how they may use and contribute to the project.
-
 ## Questions and Support
 
 If you have questions, discover issues or have suggestions, please open an [issue](https://github.com/alfredocr05/or-checklist/issues) in this repository or contact the author through the correspondence information provided in the associated publication.
