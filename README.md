@@ -1,57 +1,64 @@
 # OR Setup Checklist Prompt Generator
 
-## Overview
+Browser-based tool used to standardize scenario inputs and generate structured anesthesia room setup prompts for Google Gemini.
 
-This browser‑based tool helps anesthesia teams quickly generate a structured list of supplies and equipment needed for operating room (OR) setup. By entering a few case details—patient age group, patient context, ASA classification, anesthesia type and surgical procedure—the tool outputs a one‑page prompt that can be used with Google Gemini (or any modern large‑language model) to produce a customized checklist.  
-This can reduce interruptions during short turnover windows and ensure that assistants have all the necessary items ready before the next case.
+---
 
-## Who Is This For?
+## Quick Access
 
-- **Anesthesiologists and assistants** who need fast, procedure‑specific setup guidance.
-- **Students, trainees and evaluators** looking to understand operational implications of brief turnovers and procedure diversity.
-- **Researchers and reviewers** interested in exploring AI‑assisted workflow tools in a clinical environment.
+### Live Tool
 
-## Quick Start
+https://alfredocr05.github.io/or-checklist/
 
-1. **Open the live prompt generator:**  
-   Visit **[alfredocr05.github.io/or-checklist](https://alfredocr05.github.io/or-checklist/)** in any modern desktop or mobile browser—no installation or login required.
-2. **Enter case details:**  
-   Choose the patient age group, context (inpatient/ambulatory), ASA classification, type of anesthesia, and list the scheduled surgical procedure(s).
-3. **Generate & copy the prompt:**  
-   Click **“Copy Prompt”** to copy the generated prompt to your clipboard.
-4. **Use the prompt with Gemini:**  
-   Paste the prompt into Google Gemini (or another LLM) to produce a one‑page supplies and equipment checklist for the anesthetic assistant.
+### Documentation and Source Code
 
-## Access Options
+https://github.com/alfredocr05/or-checklist
 
-| Option | Description |
-| --- | --- |
-| **Live web app** | [**alfredocr05.github.io/or-checklist**](https://alfredocr05.github.io/or-checklist/) – the easiest way to use the tool. |
-| **QR code** | Scan the QR code below with your phone’s camera to open the live app directly. You can also print or save the QR code for later reference. |
-| **Repository & documentation** | This GitHub repository contains the source code, README, screenshots and instructions. Non‑technical users generally do not need to clone or download the code. |
-| **Archived release (DOI)** | For long‑term citation and preservation, a permanent snapshot is available via Zenodo: [10.5281/zenodo.20673373](https://doi.org/10.5281/zenodo.20673373). |
+### DOI Archive
 
-### QR Code
+https://doi.org/10.5281/zenodo.20673373
 
-Below is a sample QR code that opens the live prompt generator.  
-If you are viewing this file on GitHub, click the image to open or download it.  
-The QR code page is also available in the `QR code/` folder and the manuscript release assets.
+---
 
-![QR Code – OR Setup Checklist](QR%20code/OR_setup_checklist_QR.png)
+## QR Code
 
-*Open your phone’s camera and point it at the code, or type the URL **alfredocr05.github.io/or-checklist/** into any browser.*  
-To print or save the QR code page, open the file in the `QR code` folder or download the assets from the release page.
+Scan the QR code below to open the live prompt generator directly on your phone or tablet.
 
-## Repository Structure
+![QR Code](qr_code.png)
 
-```
-/
-├── index.html              # main web application (live prompt generator)
-├── Checklist Generator/    # assets and scripts for the prompt generator
-├── QR code/                # printable QR code page and image assets
-├── README.md / README.txt  # this documentation in Markdown/plain‑text
-```
+Live URL:
 
-## Questions and Support
+https://alfredocr05.github.io/or-checklist/
 
-If you have questions, discover issues or have suggestions, please open an [issue](https://github.com/alfredocr05/or-checklist/issues) in this repository or contact the author through the correspondence information provided in the associated publication.
+---
+
+## How to Use
+
+1. Open the live prompt generator.
+2. Select patient age group.
+3. Select patient context.
+4. Select ASA classification.
+5. Select anesthesia type.
+6. Enter the scheduled procedure.
+7. Click **Copy Prompt**.
+8. Paste the generated prompt into Google Gemini.
+9. Review the generated anesthesia equipment and supply checklist.
+
+---
+
+## For Readers and Reviewers
+
+The project can be accessed in three ways:
+
+- Live web application:
+  https://alfredocr05.github.io/or-checklist/
+
+- Repository with documentation:
+  https://github.com/alfredocr05/or-checklist
+
+- Permanent DOI archive:
+  https://doi.org/10.5281/zenodo.20673373
+
+No software installation is required.
+No account is required.
+The tool runs directly in a web browser.
