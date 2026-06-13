@@ -10,10 +10,6 @@ Browser-based tool used to standardize scenario inputs and generate structured a
 
 https://alfredocr05.github.io/or-checklist/
 
-### Documentation and Source Code
-
-https://github.com/alfredocr05/or-checklist
-
 ### DOI Archive
 
 https://doi.org/10.5281/zenodo.20673373
